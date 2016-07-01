@@ -73,3 +73,14 @@ func TestUniqueWords(t *testing.T) {
 		set[w] = true
 	}
 }
+
+func TestUniqueWordsError(t *testing.T) {
+	g := NewGenerator(words)
+
+	dest := make([]string, len(words)+1)
+	_, err := g.UniqueWords(dest)
+
+	if err == nil {
+		t.Error("expected error, got nil")
+	}
+}
