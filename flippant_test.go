@@ -21,19 +21,19 @@ func TestNewGenerator(t *testing.T) {
 func TestWords(t *testing.T) {
 	g := NewGenerator(words)
 
-	into := make([]string, 3)
-	l, err := g.Words(into)
+	dest := make([]string, 3)
+	l, err := g.Words(dest)
 
 	if err != nil {
-		t.Error("Received error")
+		t.Errorf("received error: %s", err)
 	}
 	if l != 3 {
-		t.Error("Received unexpected length as return value")
+		t.Errorf("unexpected length: %d", l)
 	}
 
-	for _, item := range into {
+	for _, item := range dest {
 		if _, found := indexOf(item, words); !found {
-			t.Error("Received unexpected item")
+			t.Errorf("unexpected item: %s", item)
 		}
 	}
 }
@@ -44,6 +44,32 @@ func TestWord(t *testing.T) {
 	word := g.Word()
 
 	if _, found := indexOf(word, words); !found {
-		t.Error("Received unexpected item")
+		t.Errorf("unexpected item: %s", word)
+	}
+}
+
+func TestUniqueWords(t *testing.T) {
+	g := NewGenerator(words)
+
+	dest := make([]string, 3)
+	l, err := g.UniqueWords(dest)
+
+	if err != nil {
+		t.Errorf("received error: %s", err)
+	}
+	if l != 3 {
+		t.Errorf("unexpected length: %d", l)
+	}
+
+	set := make(map[string]bool)
+
+	for _, w := range dest {
+		if _, found := indexOf(w, words); !found {
+			t.Errorf("unexpected item: %s", w)
+		}
+		if _, ok := set[w]; ok {
+			t.Errorf("duplicate item: %s", w)
+		}
+		set[w] = true
 	}
 }

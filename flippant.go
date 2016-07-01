@@ -1,6 +1,7 @@
 package flippant
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -9,17 +10,19 @@ import (
 func NewGenerator(words []string) Generator {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	return Generator{words, r}
+	return Generator{words, len(words), r}
 }
 
 // Generator is a flippant word generator
 type Generator struct {
-	Source []string
-	Rand   *rand.Rand
+	source []string
+	len    int
+	r      *rand.Rand
 }
 
-// Words creates a set of words from the source list into the destination list
-func (g *Generator) Words(dest []string) (int, error) {
+// Words creates an array of words from the source list into the
+// destination list
+func (g Generator) Words(dest []string) (int, error) {
 	ln := len(dest)
 
 	for i := 0; i < ln; i++ {
@@ -29,7 +32,26 @@ func (g *Generator) Words(dest []string) (int, error) {
 	return ln, nil
 }
 
+// UniqueWords creates a set of unique words from the source list
+func (g Generator) UniqueWords(dest []string) (int, error) {
+	dl := len(dest)
+
+	if dl > g.len {
+		return 0, fmt.Errorf(
+			"destination is larger than word source; %d > %d", dl, g.len,
+		)
+	}
+
+	sel := g.r.Perm(g.len)
+
+	for i, idx := range sel[:dl] {
+		dest[i] = g.source[idx]
+	}
+
+	return dl, nil
+}
+
 // Word gets a single random word from the source list
 func (g Generator) Word() string {
-	return g.Source[g.Rand.Intn(len(g.Source))]
+	return g.source[g.r.Intn(g.len)]
 }
