@@ -37,3 +37,13 @@ func TestWords(t *testing.T) {
 		}
 	}
 }
+
+func TestWord(t *testing.T) {
+	g := NewGenerator(words)
+
+	word := g.Word()
+
+	if _, found := indexOf(word, words); !found {
+		t.Error("Received unexpected item")
+	}
+}

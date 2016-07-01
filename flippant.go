@@ -1,7 +1,6 @@
 package flippant
 
 import (
-	"math"
 	"math/rand"
 	"time"
 )
@@ -21,19 +20,16 @@ type Generator struct {
 
 // Words creates a set of words from the source list into the destination list
 func (g *Generator) Words(dest []string) (int, error) {
-	for i := 0; i < len(dest); i++ {
-		dest[i] = g.getRandomWord()
+	ln := len(dest)
+
+	for i := 0; i < ln; i++ {
+		dest[i] = g.Word()
 	}
 
-	return len(dest), nil
+	return ln, nil
 }
 
-func (g Generator) getRandomWord() string {
-	return g.Source[g.boundedInt(len(g.Source))]
-}
-
-func (g Generator) boundedInt(max int) uint {
-	n := g.Rand.Float64()
-
-	return uint(math.Floor(n * float64(max)))
+// Word gets a single random word from the source list
+func (g Generator) Word() string {
+	return g.Source[g.Rand.Intn(len(g.Source))]
 }
