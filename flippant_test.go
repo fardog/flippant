@@ -101,3 +101,61 @@ func TestNewGeneratorWithRand(t *testing.T) {
 		}
 	}
 }
+
+func TestBoundedWords(t *testing.T) {
+	words := []string{"a", "bce", "ab", "hijk", "ac", "abc"}
+
+	g := NewGenerator(words)
+
+	dest := make([]string, 3)
+
+	l, err := g.BoundedWords(dest, 3, 4)
+
+	if err != nil {
+		t.Errorf("received error: %s", err)
+	}
+
+	if l != 3 {
+		t.Errorf("unexpected length: %d", l)
+	}
+
+	for _, w := range dest {
+		if len(w) < 3 || len(w) > 4 {
+			t.Errorf("unexpected length of word \"%s\"", w)
+		}
+		if _, found := indexOf(w, words); !found {
+			t.Errorf("unexpected item: %s", w)
+		}
+	}
+}
+
+func TestBoundedUniqueWords(t *testing.T) {
+	words := []string{"a", "bce", "ab", "hijk", "ac", "abc", "abcd"}
+	expected := []string{"hijk", "bce", "abc", "abcd"}
+
+	g := NewGenerator(words)
+
+	dest := make([]string, 4)
+
+	l, err := g.BoundedUniqueWords(dest, 3, 4)
+
+	if err != nil {
+		t.Errorf("received error: %s", err)
+	}
+
+	if l != 4 {
+		t.Errorf("unexpected length: %d", l)
+	}
+
+	for _, w := range dest {
+		if len(w) < 3 || len(w) > 4 {
+			t.Errorf("unexpected length of word \"%s\"", w)
+		}
+	}
+
+	for _, w := range expected {
+		if _, found := indexOf(w, expected); !found {
+			t.Errorf("did not find expected word: %s", w)
+		}
+	}
+}
