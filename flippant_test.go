@@ -1,6 +1,9 @@
 package flippant
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 var words = []string{"a", "b", "c", "d", "e"}
 
@@ -82,5 +85,19 @@ func TestUniqueWordsError(t *testing.T) {
 
 	if err == nil {
 		t.Error("expected error, got nil")
+	}
+}
+
+func TestNewGeneratorWithRand(t *testing.T) {
+	r1 := rand.New(rand.NewSource(1))
+	r2 := rand.New(rand.NewSource(1))
+
+	g1 := NewGeneratorWithRand(words, r1)
+	g2 := NewGeneratorWithRand(words, r2)
+
+	for i := 0; i < 10; i++ {
+		if w1, w2 := g1.Word(), g2.Word(); w1 != w2 {
+			t.Errorf("expected identical words, got: %s, %s", w1, w2)
+		}
 	}
 }

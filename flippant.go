@@ -3,14 +3,22 @@ package flippant
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"time"
 )
 
 // NewGenerator creates a new word generator function
-func NewGenerator(words []string) Generator {
+func NewGenerator(words []string) *Generator {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
-	return Generator{words, len(words), r}
+	return NewGeneratorWithRand(words, r)
+}
+
+// NewGeneratorWithRand creates a new word generator with a pre-seeded random
+func NewGeneratorWithRand(words []string, r *rand.Rand) *Generator {
+	sort.Sort(ByLength(words))
+
+	return &Generator{words, len(words), r, MakeLengthMap(words)}
 }
 
 // Generator is a flippant word generator
@@ -18,6 +26,7 @@ type Generator struct {
 	source []string
 	len    int
 	r      *rand.Rand
+	lm     map[int]int
 }
 
 // Words creates an array of words from the source list into the
