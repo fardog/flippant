@@ -1,6 +1,9 @@
 package flippant
 
-import "testing"
+import (
+	"math/rand"
+	"testing"
+)
 
 var words = []string{"a", "b", "c", "d", "e"}
 
@@ -21,19 +24,138 @@ func TestNewGenerator(t *testing.T) {
 func TestWords(t *testing.T) {
 	g := NewGenerator(words)
 
-	into := make([]string, 3)
-	l, err := g.Words(into)
+	dest := make([]string, 3)
+	l, err := g.Words(dest)
 
 	if err != nil {
-		t.Error("Received error")
+		t.Errorf("received error: %s", err)
 	}
 	if l != 3 {
-		t.Error("Received unexpected length as return value")
+		t.Errorf("unexpected length: %d", l)
 	}
 
-	for _, item := range into {
+	for _, item := range dest {
 		if _, found := indexOf(item, words); !found {
-			t.Error("Received unexpected item")
+			t.Errorf("unexpected item: %s", item)
+		}
+	}
+}
+
+func TestWord(t *testing.T) {
+	g := NewGenerator(words)
+
+	word := g.Word()
+
+	if _, found := indexOf(word, words); !found {
+		t.Errorf("unexpected item: %s", word)
+	}
+}
+
+func TestUniqueWords(t *testing.T) {
+	g := NewGenerator(words)
+
+	dest := make([]string, 3)
+	l, err := g.UniqueWords(dest)
+
+	if err != nil {
+		t.Errorf("received error: %s", err)
+	}
+	if l != 3 {
+		t.Errorf("unexpected length: %d", l)
+	}
+
+	set := make(map[string]bool)
+
+	for _, w := range dest {
+		if _, found := indexOf(w, words); !found {
+			t.Errorf("unexpected item: %s", w)
+		}
+		if _, ok := set[w]; ok {
+			t.Errorf("duplicate item: %s", w)
+		}
+		set[w] = true
+	}
+}
+
+func TestUniqueWordsError(t *testing.T) {
+	g := NewGenerator(words)
+
+	dest := make([]string, len(words)+1)
+	_, err := g.UniqueWords(dest)
+
+	if err == nil {
+		t.Error("expected error, got nil")
+	}
+}
+
+func TestNewGeneratorWithRand(t *testing.T) {
+	r1 := rand.New(rand.NewSource(1))
+	r2 := rand.New(rand.NewSource(1))
+
+	g1 := NewGeneratorWithRand(words, r1)
+	g2 := NewGeneratorWithRand(words, r2)
+
+	for i := 0; i < 10; i++ {
+		if w1, w2 := g1.Word(), g2.Word(); w1 != w2 {
+			t.Errorf("expected identical words, got: %s, %s", w1, w2)
+		}
+	}
+}
+
+func TestBoundedWords(t *testing.T) {
+	words := []string{"a", "bce", "ab", "hijk", "ac", "abc"}
+
+	g := NewGenerator(words)
+
+	dest := make([]string, 3)
+
+	l, err := g.BoundedWords(dest, 3, 4)
+
+	if err != nil {
+		t.Errorf("received error: %s", err)
+	}
+
+	if l != 3 {
+		t.Errorf("unexpected length: %d", l)
+	}
+
+	for _, w := range dest {
+		if len(w) < 3 || len(w) > 4 {
+			t.Errorf("unexpected length of word \"%s\"", w)
+		}
+		if _, found := indexOf(w, words); !found {
+			t.Errorf("unexpected item: %s", w)
+		}
+	}
+}
+
+func TestBoundedUniqueWords(t *testing.T) {
+	words := []string{"a", "bce", "ab", "hijk", "ac", "abc", "abcd"}
+	expected := []string{"hijk", "bce", "abc", "abcd"}
+
+	g := NewGenerator(words)
+
+	dest := make([]string, 4)
+
+	l, err := g.BoundedUniqueWords(dest, 3, 4)
+
+	if err != nil {
+		t.Errorf("received error: %s", err)
+	}
+
+	if l != 4 {
+		t.Errorf("unexpected length: %d", l)
+	}
+
+	for _, w := range dest {
+		if len(w) < 3 || len(w) > 4 {
+			t.Errorf("unexpected length of word \"%s\"", w)
+		}
+	}
+
+	for _, w := range expected {
+		if _, found := indexOf(w, expected); !found {
+			t.Errorf("did not find expected word: %s", w)
 		}
 	}
 }
