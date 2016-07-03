@@ -34,9 +34,11 @@ func main() {
 }
 ```
 
-## API
+## Default Wordlist
 
-Soon.
+There is no default wordlist in the standard `flippant` package, but you can 
+use the [mwords][] package, which is just `flippant` with a high quality
+default wordlist. See [that package][mwords] for further details.
 
 ## Other Languages
 
@@ -52,3 +54,4 @@ new languages. You can find similar libraries for the following:
 
 [xkcd-password]: https://github.com/fardog/xkcd-password
 [hazard]: https://github.com/fardog/hazard
+[mwords]: https://github.com/fardog/flippant/blob/master/mwords

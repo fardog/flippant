@@ -122,6 +122,8 @@ func (g Generator) sliceForBounds(min, max int) ([]string, error) {
 		keys = append(keys, k)
 	}
 
+	sort.Sort(sort.IntSlice(keys))
+
 	fm := 0
 	for _, k := range keys {
 		if k >= min {
