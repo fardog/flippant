@@ -9,20 +9,25 @@ import (
 
 const assetName = "113809of.fic"
 
-// NewGenerator creates a new flippant.Generator with a provided word list
-func NewGenerator() (*flippant.Generator, error) {
+var words []string
+
+func init() {
 	rw, err := Asset(assetName)
 
 	if err != nil {
-		return nil, fmt.Errorf("unable to load asset: %s", assetName)
+		panic(fmt.Sprintf("unable to load asset: %s", assetName))
 	}
-
-	var words []string
 
 	scanner := bufio.NewScanner(bytes.NewReader(rw))
 	for scanner.Scan() {
 		words = append(words, scanner.Text())
 	}
+}
 
-	return flippant.NewGenerator(words), nil
+// NewGenerator creates a new flippant.Generator with a provided word list
+func NewGenerator() *flippant.Generator {
+	ww := make([]string, len(words))
+	copy(ww, words)
+
+	return flippant.NewGenerator(words)
 }
