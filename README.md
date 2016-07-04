@@ -52,6 +52,6 @@ new languages. You can find similar libraries for the following:
 
 [MIT](./LICENSE)
 
-[xkcd-password]: https://github.com/fardog/xkcd-password
+[xkcd-password]: https://github.com/fardog/node-xkcd-password
 [hazard]: https://github.com/fardog/hazard
 [mwords]: https://github.com/fardog/flippant/blob/master/mwords
