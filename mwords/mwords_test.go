@@ -5,19 +5,11 @@ import (
 )
 
 func TestNewGenerator(t *testing.T) {
-	_, err := NewGenerator()
-
-	if err != nil {
-		t.Errorf("unexpected error: %s", err)
-	}
+	NewGenerator()
 }
 
 func TestGeneratorParameters(t *testing.T) {
-	g, err := NewGenerator()
-
-	if err != nil {
-		t.Errorf("unexpected error: %s", err)
-	}
+	g := NewGenerator()
 
 	words := make([]string, 1000)
 
