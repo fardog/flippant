@@ -33,6 +33,17 @@ The wordlist is packed into the application code using [`go-bindata`][bindata].
 If you require control on how and when words are loaded, you are encouraged to
 build your own implementation using [`flippant`][flippant] directly.
 
+## Optional CLI
+
+`mwords` has an optional CLI which exposes the default wordlist. It can be a
+useful tool if you're just looking to get some random words. To install:
+
+```
+$ go get github.com/fardog/flippant/mwords/...
+```
+
+You can then run `mwords --help` from your shell to see all available options.
+
 ## License
 
 ### Code

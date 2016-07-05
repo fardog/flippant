@@ -37,8 +37,11 @@ func main() {
 ## Default Wordlist
 
 There is no default wordlist in the standard `flippant` package, but you can 
-use the [mwords][] package, which is just `flippant` with a high quality
+use the [`mwords`][] package, which is just `flippant` with a high quality
 default wordlist. See [that package][mwords] for further details.
+
+`mwords` also provides an [optional CLI][cli], if you're just looking to get
+some random words.
 
 ## Other Languages
 
@@ -55,3 +58,4 @@ new languages. You can find similar libraries for the following:
 [xkcd-password]: https://github.com/fardog/node-xkcd-password
 [hazard]: https://github.com/fardog/hazard
 [mwords]: https://github.com/fardog/flippant/blob/master/mwords
+[cli]: https://github.com/fardog/flippant/blob/master/mwords#optional-cli
