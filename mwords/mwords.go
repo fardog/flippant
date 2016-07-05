@@ -5,14 +5,15 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/fardog/flippant"
+	"github.com/fardog/flippant/mwords/assets"
 )
 
-const assetName = "113809of.fic"
+const assetName = "resources/113809of.fic"
 
 var words []string
 
 func init() {
-	rw, err := Asset(assetName)
+	rw, err := assets.Asset(assetName)
 
 	if err != nil {
 		panic(fmt.Sprintf("unable to load asset: %s", assetName))

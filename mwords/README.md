@@ -52,7 +52,7 @@ You can then run `mwords --help` from your shell to see all available options.
 
 ### Word List
 
-[Public Domain](./wordlist/LICENSE)
+[Public Domain](./assets/GW_LICENSE)
 
 [flippant]: https://github.com/fardog/flippant
 [bindata]: https://github.com/jteeuwen/go-bindata
