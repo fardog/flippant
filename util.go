@@ -1,17 +1,16 @@
 package flippant
 
-// ByLength exposes an interface for sorting strings by length
-type ByLength []string
+type byLength []string
 
-func (s ByLength) Len() int      { return len(s) }
-func (s ByLength) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
-func (s ByLength) Less(i, j int) bool {
+func (s byLength) Len() int      { return len(s) }
+func (s byLength) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s byLength) Less(i, j int) bool {
 	return runeLen(s[i]) < runeLen(s[j])
 }
 
 // MakeLengthMap creates a map of [length]transitionPoints, given an array
 // of strings sorted by length, shortest to longest
-func MakeLengthMap(ss []string) map[int]int {
+func makeLengthMap(ss []string) map[int]int {
 	m := make(map[int]int)
 
 	for i, s := range ss {
