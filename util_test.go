@@ -11,7 +11,7 @@ func TestMakeLengthMap(t *testing.T) {
 		4: 5,
 	}
 
-	lm := MakeLengthMap(ss)
+	lm := makeLengthMap(ss)
 
 	for k, v := range lm {
 		if expected[k] != v {

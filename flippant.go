@@ -16,9 +16,9 @@ func NewGenerator(words []string) *Generator {
 
 // NewGeneratorWithRand creates a new word generator with a pre-seeded random
 func NewGeneratorWithRand(words []string, r *rand.Rand) *Generator {
-	sort.Sort(ByLength(words))
+	sort.Sort(byLength(words))
 
-	return &Generator{words, len(words), r, MakeLengthMap(words)}
+	return &Generator{words, len(words), r, makeLengthMap(words)}
 }
 
 // Generator is a flippant word generator
