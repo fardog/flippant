@@ -37,7 +37,7 @@ func main() {
 ## Default Wordlist
 
 There is no default wordlist in the standard `flippant` package, but you can 
-use the [`mwords`][] package, which is just `flippant` with a high quality
+use the [`mwords`][mwords] package, which is just `flippant` with a high quality
 default wordlist. See [that package][mwords] for further details.
 
 `mwords` also provides an [optional CLI][cli], if you're just looking to get
