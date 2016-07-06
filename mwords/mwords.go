@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"sync"
+
 	"github.com/fardog/flippant"
 	"github.com/fardog/flippant/mwords/assets"
 )
@@ -11,8 +13,9 @@ import (
 const assetName = "resources/113809of.fic"
 
 var words []string
+var once sync.Once
 
-func init() {
+func populateWordList() {
 	rw, err := assets.Asset(assetName)
 
 	if err != nil {
@@ -27,6 +30,8 @@ func init() {
 
 // NewGenerator creates a new flippant.Generator with a provided word list
 func NewGenerator() *flippant.Generator {
+	once.Do(populateWordList)
+
 	ww := make([]string, len(words))
 	copy(ww, words)
 
